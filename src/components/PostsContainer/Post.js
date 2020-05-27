@@ -9,7 +9,20 @@ import "./Posts.css";
 // pass props in this file to
 const Post = (props) => {
   // set up state for the likes
-  const [likes, setLikes] = useState(false);
+  const [changeLikes, setChangeLikes] = useState(false);
+  const [countLikes, setCountLikes] = useState(props.likes);
+  const [totalLikes, setTotalLikes] = useState(props.post.likes);
+  const [colorchange, setColorChange] = useState("black");
+
+  function updateLikes() {
+    console.log("updateLikes");
+
+    if (!changeLikes) {
+      setTotalLikes(totalLikes + 1);
+      setChangeLikes(true);
+      setColorChange("red");
+    }
+  }
 
   return (
     <div className="post-border">
@@ -24,7 +37,13 @@ const Post = (props) => {
           src={props.post.imageUrl}
         />
       </div>
-      <LikeSection likes={props.post.likes} />
+      <LikeSection
+        likes={totalLikes}
+        setChangeLikes={setChangeLikes}
+        setCountLikes={() => updateLikes()}
+        changeLikes={changeLikes}
+        countlikes={countLikes}
+      />
 
       <CommentSection
         postId={props.post.imageUrl}
